@@ -16,10 +16,10 @@ public class Rook implements BoardPiece {
 
     @Override
     public void draw(Graphics g, int x, int y, int width, int height) {
-        g.setColor(color);
+        g.setColor(Color.BLACK);
         //g.drawOval(x,y,width,height);
         g.setFont(new Font(g.getFont().getName(),Font.PLAIN,width<height ? width : height));
-        g.drawString("♖",x,y+height);
+        g.drawString(color == Color.BLACK ? "♜" : "♖",x,y+height);
     }
 
     @Override
