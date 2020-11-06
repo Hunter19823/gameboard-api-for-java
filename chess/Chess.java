@@ -37,7 +37,7 @@ public class Chess {
 
                 if(attemptMove(lastX,lastY,e.getX(),e.getY()) && debugMode)
                     runTest();
-                game.getCanvas().paint(game.getCanvas().getGraphics());
+                updateGraphics();
             }
 
             @Override
@@ -153,6 +153,11 @@ public class Chess {
             System.out.printf("| %-2d%n",row);
         }
         System.out.println(topKey);
+    }
+
+    private void updateGraphics()
+    {
+        game.getCanvas().paint(game.getCanvas().getGraphics());
     }
 
     private static String shorten(boolean bool)
