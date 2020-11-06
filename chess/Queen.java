@@ -24,9 +24,9 @@ public class Queen implements BoardPiece {
     }
 
     @Override
-    public boolean canMove(int x, int y, int targetX, int targetY)
+    public boolean canMove(Chess game, Cell me, Cell them)
     {
-        return (Chess.movingHorizontally(x,y,targetX,targetY) || Chess.movingVertically(x,y,targetX,targetY) || Chess.movingDiagonally(x,y,targetX,targetY));
+        return (Chess.movingHorizontally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingVertically(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()));
     }
 
     @Override

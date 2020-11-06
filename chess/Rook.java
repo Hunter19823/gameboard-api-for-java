@@ -25,9 +25,9 @@ public class Rook implements BoardPiece {
     }
 
     @Override
-    public boolean canMove(int x, int y, int targetX, int targetY)
+    public boolean canMove(Chess game, Cell me, Cell them)
     {
-        return (Chess.movingVertically(x,y,targetX,targetY) || Chess.movingHorizontally(x,y,targetX,targetY));
+        return (Chess.movingVertically(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingHorizontally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()));
     }
 
 

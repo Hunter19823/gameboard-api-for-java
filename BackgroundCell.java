@@ -21,7 +21,8 @@ public class BackgroundCell implements BoardPiece {
         g.setColor(temp);
     }
 
-    public boolean canMove(int x, int y, int targetX, int targetY){
+    @Override
+    public boolean canMove(Chess game, Cell me, Cell them) {
         return false;
     }
 

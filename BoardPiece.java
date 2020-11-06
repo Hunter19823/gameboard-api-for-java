@@ -9,7 +9,7 @@ public interface BoardPiece {
     String name = "Null";
 
     public void draw(Graphics g, int x, int y, int width, int height);
-    public boolean canMove(int x, int y, int targetX, int targetY);
+    public boolean canMove(Chess game, Cell me, Cell them);
     public boolean canTake(Chess game, Cell me, Cell them);
 
     String getName();

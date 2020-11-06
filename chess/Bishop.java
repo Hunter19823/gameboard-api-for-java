@@ -24,8 +24,8 @@ public class Bishop implements BoardPiece {
     }
 
     @Override
-    public boolean canMove(int x, int y, int targetX, int targetY) {
-        return Chess.movingDiagonally(x,y,targetX,targetY);
+    public boolean canMove(Chess game, Cell me, Cell them) {
+        return Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow());
     }
 
     @Override

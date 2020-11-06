@@ -24,9 +24,9 @@ public class Knight implements BoardPiece {
     }
 
     @Override
-    public boolean canMove(int x, int y, int targetX, int targetY) {
-        int xdist = Chess.distance(x,targetX);
-        int ydist = Chess.distance(y,targetY);
+    public boolean canMove(Chess game, Cell me, Cell them) {
+        int xdist = Chess.distance(me.getColumn(),them.getColumn());
+        int ydist = Chess.distance(me.getRow(),them.getRow());
         return (xdist == 1 && ydist == 2) || (xdist == 2 && ydist == 1);
     }
 
@@ -34,7 +34,7 @@ public class Knight implements BoardPiece {
     public boolean canTake(Chess game, Cell me, Cell them) {
         if(!me.isEmpty() && !them.isEmpty()) {
             if (me.getPiece().getColor() != them.getPiece().getColor()) {
-                return canMove(me.getColumn(),me.getRow(),them.getColumn(),them.getRow());
+                return canMove(game,me,them);
             }
         }
         return false;

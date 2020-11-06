@@ -25,21 +25,21 @@ public class Pawn implements BoardPiece {
     }
 
     @Override
-    public boolean canMove(int x, int y, int targetX, int targetY)
+    public boolean canMove(Chess game, Cell me, Cell them)
     {
-        if(Chess.movingVertically(x,y,targetX,targetY)){
+        if(Chess.movingVertically(me.getColumn(),me.getRow(),them.getColumn(),them.getRow())){
             //System.out.println("Moving Vertically");
-            if(hasMoved(x,y))
-                return color == Color.BLACK ? targetY - y == 1 : targetY - y == -1;
-            return color == Color.BLACK ? targetY - y == 2 || targetY - y == 1  : targetY - y == -2 || targetY - y == -1;
+            if(hasMoved(me.getColumn(),me.getRow()))
+                return color == Color.BLACK ? them.getRow() - me.getRow() == 1 : them.getRow() - me.getRow() == -1;
+            return color == Color.BLACK ? them.getRow() - me.getRow() == 2 || them.getRow() - me.getRow() == 1  : them.getRow() - me.getRow() == -2 || them.getRow() - me.getRow() == -1;
         }
-        if(Chess.movingDiagonally(x,y,targetX,targetY))
+        if(Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()))
         {
             //System.out.println("Moving Diagonally");
             if(color == Color.BLACK) {
-                return targetY - y == 1;
+                return them.getRow() - me.getRow() == 1;
             }else{
-                return targetY - y == -1;
+                return them.getRow() - me.getRow() == -1;
             }
         }
         return false;
@@ -50,7 +50,7 @@ public class Pawn implements BoardPiece {
         if(!me.isEmpty() && !them.isEmpty()) {
             if (me.getPiece().getColor() != them.getPiece().getColor()) {
                 if(Chess.movingDiagonally(me,them)){
-                    return this.canMove(me.getColumn(),me.getRow(),them.getColumn(),them.getRow());
+                    return this.canMove(game, me, them);
                 }
             }
         }

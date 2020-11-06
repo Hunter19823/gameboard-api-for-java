@@ -14,17 +14,18 @@ public class King implements BoardPiece {
         this.color = color;
     }
 
+    @Override
     public void draw(Graphics g, int x, int y, int width, int height) {
         g.setColor(Color.BLACK);
         //g.drawOval(x,y,width,height);
         g.setFont(new Font(g.getFont().getName(),Font.PLAIN,width<height ? width : height));
         g.drawString(color == Color.BLACK ? "♚" : "♔",x,y+height);
     }
-
-    public boolean canMove(int x, int y, int targetX, int targetY)
+    @Override
+    public boolean canMove(Chess game, Cell me, Cell them)
     {
-        if((Chess.movingHorizontally(x,y,targetX,targetY) || Chess.movingVertically(x,y,targetX,targetY) || Chess.movingDiagonally(x,y,targetX,targetY))){
-            return Chess.distance(x,y,targetX,targetY) < 2;
+        if((Chess.movingHorizontally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingVertically(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()))){
+            return Chess.distance(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) < 2;
         }
         return false;
     }
@@ -33,7 +34,7 @@ public class King implements BoardPiece {
     public boolean canTake(Chess game, Cell me, Cell them) {
         if(!me.isEmpty() && !them.isEmpty()) {
             if (me.getPiece().getColor() != them.getPiece().getColor()) {
-                return canMove(me.getColumn(),me.getRow(),them.getColumn(),them.getRow());
+                return canMove(game, me, them);
             }
         }
         return false;

@@ -95,16 +95,16 @@ public class Chess {
             if(!c1.isEmpty() && c2.isEmpty())
             {
                 //if(debugMode) print("Not Empty");
-                if(c1.getPiece().canMove(c1.getColumn(),c1.getRow(),c2.getColumn(),c2.getRow())) {
+                if(c1.getPiece().canMove(this, c1,c2)) {
                     System.out.printf("(%s%s) [%s %s] to (%s%s) [Empty]%n",key[c1.getColumn()],8-c1.getRow(),getColorName(c1.getPiece().getColor()),c1.getPiece().getName(), key[c2.getColumn()],8-c2.getRow());
                     c2.setPiece(c1.removePiece());
                     return true;
                 }
                 //if(debugMode) print("Can't move");
-            }else if(isEnemy(c1,c2)){
-                if(c2.getPiece().getName() == "King")
-                    print(getColorName(c1.getPiece().getColor())+" has won!");
-                System.out.printf("(%s%s) [%s %s] to (%s%s) [%s %s]%n",key[c1.getColumn()],8-c2.getRow(),getColorName(c1.getPiece().getColor()),c1.getPiece().getName(),key[c2.getColumn()],8-c2.getRow(),getColorName(c2.getPiece().getColor()),c2.getPiece().getName());
+            }else if(c1.getPiece().canTake(this, c1, c2)){
+                if (c2.getPiece().getName() == "King")
+                    print(getColorName(c1.getPiece().getColor()) + " has won!");
+                System.out.printf("(%s%s) [%s %s] to (%s%s) [%s %s]%n", key[c1.getColumn()], 8 - c2.getRow(), getColorName(c1.getPiece().getColor()), c1.getPiece().getName(), key[c2.getColumn()], 8 - c2.getRow(), getColorName(c2.getPiece().getColor()), c2.getPiece().getName());
                 c2.setPiece(c1.removePiece());
             }
         }
@@ -169,7 +169,7 @@ public class Chess {
             System.out.printf("%-2d: |",row);
             for(int col = 0; col < 8; col++){
                 if(game.getCell(col,row) != cell){
-                    System.out.printf(" %s ",shorten(cell.getPiece().canMove(cell.getColumn(),cell.getRow(),col,row)));
+                    System.out.printf(" %s ",shorten(cell.getPiece().canMove(this, cell, game.getCell(col,row))));
                 }else{
                     System.out.printf(" %s ","S");
                 }
