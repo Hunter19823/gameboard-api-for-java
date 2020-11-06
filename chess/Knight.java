@@ -1,6 +1,7 @@
 package main.gameboard.chess;
 
 import main.gameboard.BoardPiece;
+import main.gameboard.Cell;
 
 import java.awt.*;
 
@@ -28,6 +29,17 @@ public class Knight implements BoardPiece {
         int ydist = Chess.distance(y,targetY);
         return (xdist == 1 && ydist == 2) || (xdist == 2 && ydist == 1);
     }
+
+    @Override
+    public boolean canTake(Chess game, Cell me, Cell them) {
+        if(!me.isEmpty() && !them.isEmpty()) {
+            if (me.getPiece().getColor() != them.getPiece().getColor()) {
+                return canMove(me.getColumn(),me.getRow(),them.getColumn(),them.getRow());
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public String getName() {

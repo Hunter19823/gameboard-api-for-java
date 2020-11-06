@@ -1,6 +1,7 @@
 package main.gameboard.chess;
 
 import main.gameboard.BoardPiece;
+import main.gameboard.Cell;
 
 import java.awt.*;
 
@@ -25,6 +26,16 @@ public class Bishop implements BoardPiece {
     @Override
     public boolean canMove(int x, int y, int targetX, int targetY) {
         return Chess.movingDiagonally(x,y,targetX,targetY);
+    }
+
+    @Override
+    public boolean canTake(Chess game, Cell me, Cell them) {
+        if(!me.isEmpty() && !them.isEmpty()) {
+            if (me.getPiece().getColor() != them.getPiece().getColor()) {
+                return (Chess.moveDiagonallyUnobstructed(game,me,them));
+            }
+        }
+        return false;
     }
 
     @Override

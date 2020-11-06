@@ -1,5 +1,7 @@
 package main.gameboard;
 
+import main.gameboard.chess.Chess;
+
 import java.awt.*;
 
 public class BackgroundCell implements BoardPiece {
@@ -20,6 +22,11 @@ public class BackgroundCell implements BoardPiece {
     }
 
     public boolean canMove(int x, int y, int targetX, int targetY){
+        return false;
+    }
+
+    @Override
+    public boolean canTake(Chess game, Cell me, Cell them) {
         return false;
     }
 

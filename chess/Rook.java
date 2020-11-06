@@ -1,6 +1,7 @@
 package main.gameboard.chess;
 
 import main.gameboard.BoardPiece;
+import main.gameboard.Cell;
 
 import java.awt.*;
 
@@ -27,6 +28,16 @@ public class Rook implements BoardPiece {
     public boolean canMove(int x, int y, int targetX, int targetY)
     {
         return (Chess.movingVertically(x,y,targetX,targetY) || Chess.movingHorizontally(x,y,targetX,targetY));
+    }
+
+
+    public boolean canTake(Chess game, Cell me, Cell them) {
+        if(!me.isEmpty() && !them.isEmpty()) {
+            if (me.getPiece().getColor() != them.getPiece().getColor()) {
+                return (Chess.moveHorizontallyUnobstructed(game, me, them) || Chess.moveVerticallyUnobstructed(game, me, them));
+            }
+        }
+        return false;
     }
 
     @Override

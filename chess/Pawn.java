@@ -1,6 +1,7 @@
 package main.gameboard.chess;
 
 import main.gameboard.BoardPiece;
+import main.gameboard.Cell;
 
 import java.awt.*;
 
@@ -43,6 +44,19 @@ public class Pawn implements BoardPiece {
         }
         return false;
     }
+
+    @Override
+    public boolean canTake(Chess game, Cell me, Cell them) {
+        if(!me.isEmpty() && !them.isEmpty()) {
+            if (me.getPiece().getColor() != them.getPiece().getColor()) {
+                if(Chess.movingDiagonally(me,them)){
+                    return this.canMove(me.getColumn(),me.getRow(),them.getColumn(),them.getRow());
+                }
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public String getName() {

@@ -27,11 +27,11 @@ public class Cell {
         FULL
     }
 
-    public int getX(){
+    public int getColumn(){
         return x;
     }
 
-    public int getY() {
+    public int getRow() {
         return y;
     }
 

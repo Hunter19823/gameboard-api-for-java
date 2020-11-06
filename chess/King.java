@@ -1,6 +1,7 @@
 package main.gameboard.chess;
 
 import main.gameboard.BoardPiece;
+import main.gameboard.Cell;
 
 import java.awt.*;
 
@@ -27,6 +28,17 @@ public class King implements BoardPiece {
         }
         return false;
     }
+
+    @Override
+    public boolean canTake(Chess game, Cell me, Cell them) {
+        if(!me.isEmpty() && !them.isEmpty()) {
+            if (me.getPiece().getColor() != them.getPiece().getColor()) {
+                return canMove(me.getColumn(),me.getRow(),them.getColumn(),them.getRow());
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public Color getColor() {
