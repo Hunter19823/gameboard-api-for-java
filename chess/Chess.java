@@ -6,11 +6,13 @@ import main.gameboard.GameBoard;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.reflect.Parameter;
 
 import static main.cardgames.GoFish.print;
 
 public class Chess {
     private GameBoard game;
+    private static final char[] key = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
     private boolean debugMode = false;
     public Chess(){
         game = new GameBoard();
@@ -53,7 +55,11 @@ public class Chess {
     }
     public static void main(String[] args) {
         Chess chessBoard1 = new Chess();
+        chessBoard1.setDebugMode(false);
+    }
 
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
     }
 
     public void populateBoard()
@@ -87,11 +93,17 @@ public class Chess {
             if(!c1.isEmpty() && c2.isEmpty())
             {
                 if(debugMode) print("Not Empty");
-                if(c1.getPiece().canMove(c1.getX(),c1.getY(),c2.getX(),c2.getY())){
+                if(c1.getPiece().canMove(c1.getX(),c1.getY(),c2.getX(),c2.getY())) {
+                    System.out.printf("(%s%s) [%s %s] to (%s%s) [Empty]%n",key[c1.getX()],8-c1.getY(),getColorName(c1.getPiece().getColor()),c1.getPiece().getName(), key[c2.getX()],8-c2.getY());
                     c2.setPiece(c1.removePiece());
                     return true;
                 }
                 if(debugMode) print("Can't move");
+            }else if(isEnemy(c1,c2)){
+                if(c2.getPiece().getName() == "King")
+                    print(getColorName(c1.getPiece().getColor())+" has won!");
+                System.out.printf("(%s%s) [%s %s] to (%s%s) [%s %s]%n",key[c1.getX()],8-c2.getY(),getColorName(c1.getPiece().getColor()),c1.getPiece().getName(),key[c2.getX()],8-c2.getY(),getColorName(c2.getPiece().getColor()),c2.getPiece().getName());
+                c2.setPiece(c1.removePiece());
             }
         }
         return false;
@@ -128,7 +140,7 @@ public class Chess {
             {
                 if(!cell.isEmpty())
                 {
-                    System.out.println("Now testing: "+cell.getPiece().getColor().toString().substring(14)+" "+cell.getPiece().getName());
+                    System.out.println("Now testing: "+getColorName(cell.getPiece().getColor())+" "+cell.getPiece().getName());
                     printAllAvailableSpaces(cell);
                 }
             }
@@ -186,6 +198,25 @@ public class Chess {
     {
         return distance(targetX,x) == distance(targetY,y) && x != targetX;
     }
+
+    public static boolean isEnemy(Cell c1, Cell c2)
+    {
+        if(!c1.isEmpty() && !c2.isEmpty())
+            return (!c1.getPiece().getColor().equals(c2.getPiece().getColor()));
+        return false;
+    }
+
+    public static String getColorName(Color c)
+    {
+        if (Color.BLACK.equals(c)) {
+            return "Black";
+        } else if (Color.WHITE.equals(c)) {
+            return "White";
+        }
+        return "Unknown";
+    }
+
+
 
 
 }

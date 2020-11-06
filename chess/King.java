@@ -13,8 +13,7 @@ public class King implements BoardPiece {
         this.color = color;
     }
 
-    public void draw(Graphics g, int x, int y, int width, int height)
-    {
+    public void draw(Graphics g, int x, int y, int width, int height) {
         g.setColor(Color.BLACK);
         //g.drawOval(x,y,width,height);
         g.setFont(new Font(g.getFont().getName(),Font.PLAIN,width<height ? width : height));

@@ -15,7 +15,8 @@ public class Rook implements BoardPiece {
 
 
     @Override
-    public void draw(Graphics g, int x, int y, int width, int height) {
+    public void draw(Graphics g, int x, int y, int width, int height)
+    {
         g.setColor(Color.BLACK);
         //g.drawOval(x,y,width,height);
         g.setFont(new Font(g.getFont().getName(),Font.PLAIN,width<height ? width : height));
@@ -23,7 +24,8 @@ public class Rook implements BoardPiece {
     }
 
     @Override
-    public boolean canMove(int x, int y, int targetX, int targetY) {
+    public boolean canMove(int x, int y, int targetX, int targetY)
+    {
         return (Chess.movingVertically(x,y,targetX,targetY) || Chess.movingHorizontally(x,y,targetX,targetY));
     }
 
