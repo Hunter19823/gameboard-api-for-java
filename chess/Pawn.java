@@ -27,31 +27,20 @@ public class Pawn implements BoardPiece {
     @Override
     public boolean canMove(Chess game, Cell me, Cell them)
     {
-        if(Chess.movingVertically(me.getColumn(),me.getRow(),them.getColumn(),them.getRow())){
+        if(Chess.movingVerticallyUnobstructed(game,me,them) && them.isEmpty()){
             //System.out.println("Moving Vertically");
             if(hasMoved(me.getColumn(),me.getRow()))
                 return color == Color.BLACK ? them.getRow() - me.getRow() == 1 : them.getRow() - me.getRow() == -1;
             return color == Color.BLACK ? them.getRow() - me.getRow() == 2 || them.getRow() - me.getRow() == 1  : them.getRow() - me.getRow() == -2 || them.getRow() - me.getRow() == -1;
         }
-        if(Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()))
-        {
-            //System.out.println("Moving Diagonally");
-            if(color == Color.BLACK) {
-                return them.getRow() - me.getRow() == 1;
-            }else{
-                return them.getRow() - me.getRow() == -1;
-            }
-        }
-        return false;
+        return (canTake(game, me, them));
     }
 
     @Override
     public boolean canTake(Chess game, Cell me, Cell them) {
         if(!me.isEmpty() && !them.isEmpty()) {
             if (me.getPiece().getColor() != them.getPiece().getColor()) {
-                if(Chess.movingDiagonally(me,them)){
-                    return this.canMove(game, me, them);
-                }
+                return Chess.movingDiagonally(me,them) && Chess.distance(me,them) < 2;
             }
         }
         return false;

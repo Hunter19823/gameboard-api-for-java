@@ -26,14 +26,14 @@ public class Queen implements BoardPiece {
     @Override
     public boolean canMove(Chess game, Cell me, Cell them)
     {
-        return (Chess.movingHorizontally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingVertically(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()));
+        return (Chess.movingHorizontallyUnobstructed(game,me,them) || Chess.movingVerticallyUnobstructed(game,me,them) || Chess.movingDiagonallyUnobstructed(game,me,them));
     }
 
     @Override
     public boolean canTake(Chess game, Cell me, Cell them) {
         if(!me.isEmpty() && !them.isEmpty()) {
             if (me.getPiece().getColor() != them.getPiece().getColor()) {
-                return (Chess.moveHorizontallyUnobstructed(game, me, them) || Chess.moveVerticallyUnobstructed(game, me, them) || Chess.moveDiagonallyUnobstructed(game,me,them));
+                return (Chess.movingHorizontallyUnobstructed(game, me, them) || Chess.movingVerticallyUnobstructed(game, me, them) || Chess.movingDiagonallyUnobstructed(game,me,them));
             }
         }
         return false;

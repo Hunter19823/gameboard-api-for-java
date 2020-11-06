@@ -20,7 +20,7 @@ public class Chess {
     }
     public static void main(String[] args) {
         Chess chessBoard1 = new Chess();
-        chessBoard1.setDebugMode(true);
+        chessBoard1.setDebugMode(false);
     }
 
     public void setDebugMode(boolean debugMode) {
@@ -96,7 +96,7 @@ public class Chess {
             {
                 //if(debugMode) print("Not Empty");
                 if(c1.getPiece().canMove(this, c1,c2)) {
-                    System.out.printf("(%s%s) [%s %s] to (%s%s) [Empty]%n",key[c1.getColumn()],8-c1.getRow(),getColorName(c1.getPiece().getColor()),c1.getPiece().getName(), key[c2.getColumn()],8-c2.getRow());
+                    //System.out.printf("(%s%s) [%s %s] to (%s%s) [Empty]%n",key[c1.getColumn()],8-c1.getRow(),getColorName(c1.getPiece().getColor()),c1.getPiece().getName(), key[c2.getColumn()],8-c2.getRow());
                     c2.setPiece(c1.removePiece());
                     return true;
                 }
@@ -104,7 +104,7 @@ public class Chess {
             }else if(c1.getPiece().canTake(this, c1, c2)){
                 if (c2.getPiece().getName() == "King")
                     print(getColorName(c1.getPiece().getColor()) + " has won!");
-                System.out.printf("(%s%s) [%s %s] to (%s%s) [%s %s]%n", key[c1.getColumn()], 8 - c2.getRow(), getColorName(c1.getPiece().getColor()), c1.getPiece().getName(), key[c2.getColumn()], 8 - c2.getRow(), getColorName(c2.getPiece().getColor()), c2.getPiece().getName());
+                //System.out.printf("(%s%s) [%s %s] to (%s%s) [%s %s]%n", key[c1.getColumn()], 8 - c2.getRow(), getColorName(c1.getPiece().getColor()), c1.getPiece().getName(), key[c2.getColumn()], 8 - c2.getRow(), getColorName(c2.getPiece().getColor()), c2.getPiece().getName());
                 c2.setPiece(c1.removePiece());
             }
         }
@@ -226,7 +226,7 @@ public class Chess {
     {
         return movingHorizontally(c1.getColumn(),c1.getRow(),c2.getColumn(),c2.getRow());
     }
-    public static boolean moveHorizontallyUnobstructed(Chess game, Cell c1, Cell c2)
+    public static boolean movingHorizontallyUnobstructed(Chess game, Cell c1, Cell c2)
     {
         if (Chess.movingHorizontally(c1, c2)) {
             if(c1.getColumn() > c2.getColumn()) {
@@ -254,7 +254,7 @@ public class Chess {
     {
         return movingVertically(c1.getColumn(),c1.getRow(),c2.getColumn(),c2.getRow());
     }
-    public static boolean moveVerticallyUnobstructed(Chess game, Cell c1, Cell c2)
+    public static boolean movingVerticallyUnobstructed(Chess game, Cell c1, Cell c2)
     {
         if (Chess.movingVertically(c1, c2)) {
             int lowerR = Math.min(c1.getRow(), c2.getRow()) + 1;
@@ -277,19 +277,17 @@ public class Chess {
     {
         return movingDiagonally(c1.getColumn(),c1.getRow(),c2.getColumn(),c2.getRow());
     }
-    public static boolean moveDiagonallyUnobstructed(Chess game, Cell c1, Cell c2)
+    public static boolean movingDiagonallyUnobstructed(Chess game, Cell c1, Cell c2)
     {
         if (Chess.movingDiagonally(c1, c2)) {
-            if((Chess.distance(c1,c2) > 2)) {
-                int lowerR = Math.min(c1.getRow(), c2.getRow()) + 1;
-                int higherR = Math.max(c1.getRow(), c2.getRow());
-                int lowerC = Math.min(c1.getColumn(), c2.getColumn()) + 1;
-                int higherC = Math.max(c1.getColumn(), c2.getColumn());
-                for (int row = lowerR; row < higherR; row++) {
-                    for (int col = lowerC; col < higherC; col++) {
-                        if (!game.getCell(col, row).isEmpty()) {
-                            return false;
-                        }
+            int lowerR = Math.min(c1.getRow(), c2.getRow()) + 1;
+            int higherR = Math.max(c1.getRow(), c2.getRow());
+            int lowerC = Math.min(c1.getColumn(), c2.getColumn()) + 1;
+            int higherC = Math.max(c1.getColumn(), c2.getColumn());
+            for (int row = lowerR; row < higherR; row++) {
+                for (int col = lowerC; col < higherC; col++) {
+                    if (!game.getCell(col, row).isEmpty()) {
+                        return false;
                     }
                 }
             }

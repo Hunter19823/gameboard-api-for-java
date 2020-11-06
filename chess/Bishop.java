@@ -25,14 +25,14 @@ public class Bishop implements BoardPiece {
 
     @Override
     public boolean canMove(Chess game, Cell me, Cell them) {
-        return Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow());
+        return Chess.movingDiagonally(me,them);
     }
 
     @Override
     public boolean canTake(Chess game, Cell me, Cell them) {
         if(!me.isEmpty() && !them.isEmpty()) {
             if (me.getPiece().getColor() != them.getPiece().getColor()) {
-                return (Chess.moveDiagonallyUnobstructed(game,me,them));
+                return (Chess.movingDiagonallyUnobstructed(game,me,them));
             }
         }
         return false;
