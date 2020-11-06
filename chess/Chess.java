@@ -17,8 +17,19 @@ public class Chess {
     public Chess(){
         game = new GameBoard();
         populateBoard();
+        addMouseListener();
+    }
+    public static void main(String[] args) {
+        Chess chessBoard1 = new Chess();
+        chessBoard1.setDebugMode(false);
+    }
 
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
 
+    public void addMouseListener()
+    {
         game.getCanvas().addMouseListener(new MouseListener(){
             int lastX,lastY;
             @Override
@@ -52,14 +63,6 @@ public class Chess {
                 //System.out.printf("%20s: (%d,%d)%n","Mouse Exited",e.getX(),e.getY());
             }
         });
-    }
-    public static void main(String[] args) {
-        Chess chessBoard1 = new Chess();
-        chessBoard1.setDebugMode(false);
-    }
-
-    public void setDebugMode(boolean debugMode) {
-        this.debugMode = debugMode;
     }
 
     public void populateBoard()
