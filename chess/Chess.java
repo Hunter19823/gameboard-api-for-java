@@ -1,11 +1,14 @@
 package main.gameboard.chess;
 
+import main.gameboard.BoardPiece;
 import main.gameboard.Cell;
 import main.gameboard.GameBoard;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import static main.cardgames.GoFish.print;
 
@@ -13,14 +16,18 @@ public class Chess {
     private GameBoard game;
     private static final char[] key = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
     private boolean debugMode = false;
+    private Color lastMoved = Color.BLACK;
+    private boolean gameOver = false;
     public Chess(){
-        game = new GameBoard();
-        populateBoard();
+        game = new GameBoard("Pie's Homemade Chess Game");
+        //populateBoard();
+        testPiece(new Queen(Color.WHITE));
         addMouseListener();
+        runTest();
     }
     public static void main(String[] args) {
         Chess chessBoard1 = new Chess();
-        chessBoard1.setDebugMode(false);
+        chessBoard1.setDebugMode(true);
     }
 
     public void setDebugMode(boolean debugMode) {
@@ -34,6 +41,7 @@ public class Chess {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //System.out.printf("%20s: (%d,%d)%n","Mouse Clicked",e.getX(),e.getY());
+
             }
 
             @Override
@@ -46,9 +54,11 @@ public class Chess {
             public void mouseReleased(MouseEvent e) {
                 //System.out.printf("%20s: (%d,%d)%n","Mouse Released",e.getX(),e.getY());
                 //System.out.printf("%20s: (%d,%d)%n","Last Cords",lastX,lastY);
-
-                if(attemptMove(lastX,lastY,e.getX(),e.getY()) && debugMode)
-                    runTest();
+                if(!gameOver) {
+                    if (attemptMove(lastX, lastY, e.getX(), e.getY())) {
+                        if (debugMode) runTest();
+                    }
+                }
                 updateGraphics();
             }
 
@@ -64,11 +74,20 @@ public class Chess {
         });
     }
 
+    private void testPiece(BoardPiece piece)
+    {
+        game.setPiece(3,3,piece);
+        game.setPiece(1,1,new Pawn(Color.BLACK));
+        game.setPiece(5,1,new Pawn(Color.BLACK));
+        game.setPiece(1,5,new Pawn(Color.BLACK));
+        game.setPiece(5,5,new Pawn(Color.BLACK));
+    }
     public void populateBoard()
     {
         game.setPiece(4,7,new King(Color.WHITE));
         game.setPiece(4,0,new King(Color.BLACK));
         game.setPiece(3,7,new Queen(Color.WHITE));
+        //game.setPiece(3,3,new Queen(Color.WHITE));
         game.setPiece(3,0,new Queen(Color.BLACK));
         for(int i = 0; i < 8; i++)
         {
@@ -89,23 +108,33 @@ public class Chess {
     {
         Cell c1 = findCell(y1, x1);
         Cell c2 = findCell(y2, x2);
+        return attemptMove(c1,c2);
+    }
+
+    public boolean attemptMove(Cell c1, Cell c2)
+    {
         if(c1 != null && c2 != null)
         {
-            //if(debugMode) print("Not Null");
-            if(!c1.isEmpty() && c2.isEmpty())
-            {
-                //if(debugMode) print("Not Empty");
-                if(c1.getPiece().canMove(this, c1,c2)) {
-                    //System.out.printf("(%s%s) [%s %s] to (%s%s) [Empty]%n",key[c1.getColumn()],8-c1.getRow(),getColorName(c1.getPiece().getColor()),c1.getPiece().getName(), key[c2.getColumn()],8-c2.getRow());
+            if(!c1.isEmpty()) {
+                if(c1.getPiece().getColor() == lastMoved)
+                    return false;
+                if (c2.isEmpty()) {
+                    if (c1.getPiece().canMove(this, c1, c2)) {
+                        System.out.printf("(%s%s) [%s %s] to (%s%s) [Empty]%n",key[c1.getColumn()],8-c1.getRow(),getColorName(c1.getPiece().getColor()),c1.getPiece().getName(), key[c2.getColumn()],8-c2.getRow());
+                        lastMoved = lastMoved == Color.BLACK ? Color.WHITE : Color.BLACK;
+                        c2.setPiece(c1.removePiece());
+
+                        return true;
+                    }
+                } else if (c1.getPiece().canTake(this, c1, c2)) {
+                    lastMoved = lastMoved == Color.BLACK ? Color.WHITE : Color.BLACK;
+                    System.out.printf("(%s%s) [%s %s] to (%s%s) [%s %s]%n", key[c1.getColumn()], 8 - c2.getRow(), getColorName(c1.getPiece().getColor()), c1.getPiece().getName(), key[c2.getColumn()], 8 - c2.getRow(), getColorName(c2.getPiece().getColor()), c2.getPiece().getName());
                     c2.setPiece(c1.removePiece());
-                    return true;
+                    if (c2.getPiece().getName() == "King") {
+                        gameOver = true;
+                        print(getColorName(c1.getPiece().getColor()) + " has won!");
+                    }
                 }
-                //if(debugMode) print("Can't move");
-            }else if(c1.getPiece().canTake(this, c1, c2)){
-                if (c2.getPiece().getName() == "King")
-                    print(getColorName(c1.getPiece().getColor()) + " has won!");
-                //System.out.printf("(%s%s) [%s %s] to (%s%s) [%s %s]%n", key[c1.getColumn()], 8 - c2.getRow(), getColorName(c1.getPiece().getColor()), c1.getPiece().getName(), key[c2.getColumn()], 8 - c2.getRow(), getColorName(c2.getPiece().getColor()), c2.getPiece().getName());
-                c2.setPiece(c1.removePiece());
             }
         }
         return false;
@@ -151,7 +180,7 @@ public class Chess {
             {
                 if(!cell.isEmpty())
                 {
-                    System.out.println("Now testing: "+getColorName(cell.getPiece().getColor())+" "+cell.getPiece().getName());
+                    print("Now testing: "+getColorName(cell.getPiece().getColor())+" "+cell.getPiece().getName());
                     printAllAvailableSpaces(cell);
                     printAllAvailableTakes(cell);
                 }
@@ -280,6 +309,7 @@ public class Chess {
     public static boolean movingDiagonallyUnobstructed(Chess game, Cell c1, Cell c2)
     {
         if (Chess.movingDiagonally(c1, c2)) {
+
             int lowerR = Math.min(c1.getRow(), c2.getRow()) + 1;
             int higherR = Math.max(c1.getRow(), c2.getRow());
             int lowerC = Math.min(c1.getColumn(), c2.getColumn()) + 1;
@@ -291,6 +321,61 @@ public class Chess {
                     }
                 }
             }
+            return true;
+            
+            /*
+            if(c1.getRow() < c2.getRow())
+            {
+                int row = c1.getRow() + 1;
+                if(c1.getColumn() < c2.getColumn()){
+                    for(int col = c1.getColumn() + 1; col < c2.getColumn(); col++, row++){
+                        if (!game.getCell(col, row).isEmpty()) {
+                            return false;
+                        }
+                    }
+                }else{
+                    for(int col = c2.getColumn() + 1; col < c1.getColumn(); col++, row++){
+                        if (!game.getCell(col, row).isEmpty()) {
+                            return false;
+                        }
+                    }
+                }
+            }else{
+                int row = c2.getRow() + 1;
+                if(c1.getColumn() < c2.getColumn()){
+                    for(int col = c1.getColumn() + 1; col < c2.getColumn(); col++, row++){
+                        if (!game.getCell(col, row).isEmpty()) {
+                            return false;
+                        }
+                    }
+                }else{
+                    for(int col = c2.getColumn() + 1; col < c1.getColumn(); col++, row++){
+                        if (!game.getCell(col, row).isEmpty()) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+             */
+            /*
+            int mult = (c2.getColumn()-c1.getColumn() < 0) ? -1 : 1;
+            int rowmult = (c2.getRow()-c1.getRow() < 0) ? -1 : 1;
+            boolean canContinue = true;
+            for(int col = 1; col < c2.getColumn()-c1.getColumn(); col+=mult)
+            {
+                if (!game.getCell(c1.getColumn()+col, c1.getRow()+col).isEmpty()) {
+                    return false;
+                }
+            }
+            mult*=-1;
+            for(int col = c2.getColumn()-c1.getColumn(); col > 1; col+=mult)
+            {
+                if (!game.getCell(c1.getColumn()+col, c1.getRow()+col).isEmpty()) {
+                    return false;
+                }
+            }
+            */
             return true;
         }
         return false;

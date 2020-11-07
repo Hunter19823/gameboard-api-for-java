@@ -28,6 +28,23 @@ public class GameBoard
         canvas = new GameBoardVisual(this,"Default",ROWS*SIZE,COLUMNS*SIZE);
     }
 
+    public GameBoard(String name)
+    {
+        ROWS = 8;
+        COLUMNS = 8;
+        SIZE = 50;
+        board = new Cell[ROWS][COLUMNS];
+        for(int row = 0; row < ROWS; row++)
+        {
+            for(int column = 0; column < COLUMNS; column++)
+            {
+                board[row][column] = new Cell(column,row);
+            }
+        }
+        canvas = new GameBoardVisual(this,name,ROWS*SIZE,COLUMNS*SIZE);
+    }
+
+
     public GameBoardVisual getCanvas() {
         return canvas;
     }
