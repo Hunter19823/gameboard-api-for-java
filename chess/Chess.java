@@ -309,11 +309,62 @@ public class Chess {
     public static boolean movingDiagonallyUnobstructed(Chess game, Cell c1, Cell c2)
     {
         if (Chess.movingDiagonally(c1, c2)) {
+            /*
+            // Bottom Right Quad
+            if(c1.getColumn()-c2.getColumn() < 0 && c1.getRow()-c2.getRow() < 0)
+            {
+                //System.out.print();
+                for(int i=1; i < c2.getColumn() - c1.getColumn(); i++)
+                {
+                    if(game.getCell(c1.getColumn()+i, c1.getRow()-i) == null) return false;
+                    if (!game.getCell(c1.getColumn()+i, c1.getRow()+i).isEmpty()) {
+                        return false;
+                    }
+                }
+            }
+            // Bottom Left Quad
+            else if(c2.getColumn()-c1.getColumn() < 0 && c1.getRow()-c2.getRow() < 0)
+            {
+                for(int i=1; i < c1.getColumn() - c2.getColumn(); i++)
+                {
+                    if(game.getCell(c1.getColumn()+i, c1.getRow()-i) == null) return false;
+                    if (!game.getCell(c1.getColumn()-i, c1.getRow()+i).isEmpty()) {
+                        return false;
+                    }
+                }
+            }
+            // Top Right Quad
+            else if(c1.getColumn()-c2.getColumn() < 0 && c2.getRow()-c1.getRow() < 0)
+            {
+                for(int i=1; i < c2.getColumn() - c1.getColumn(); i++)
+                {
+                    if(game.getCell(c1.getColumn()+i, c1.getRow()-i) == null) return false;
+                    if (!game.getCell(c1.getColumn()+i, c1.getRow()-i).isEmpty()) {
+                        return false;
+                    }
+                }
 
+            }
+            // Top Left Quad
+            else if(c2.getColumn()-c1.getColumn() < 0 && c2.getRow()-c1.getRow() < 0)
+            {
+                for(int i=1; i < c1.getColumn() - c2.getColumn(); i++)
+                {
+                    if(game.getCell(c1.getColumn()+i, c1.getRow()-i) == null) return false;
+                    if (!game.getCell(c1.getColumn()+i, c1.getRow()-i).isEmpty()) {
+                        return false;
+                    }
+                }
+            }else{
+                print("Logic Error");
+            }
+            return true;
+             */
+            /*
             int lowerR = Math.min(c1.getRow(), c2.getRow()) + 1;
             int higherR = Math.max(c1.getRow(), c2.getRow());
             int lowerC = Math.min(c1.getColumn(), c2.getColumn()) + 1;
-            int higherC = Math.max(c1.getColumn(), c2.getColumn());
+            int higherC = Math.max(c1.getColumn(), c2.getColumn()) ;
             for (int row = lowerR; row < higherR; row++) {
                 for (int col = lowerC; col < higherC; col++) {
                     if (!game.getCell(col, row).isEmpty()) {
@@ -321,8 +372,43 @@ public class Chess {
                     }
                 }
             }
+            for (int row = higherR; row > lowerR; row--) {
+                for (int col = higherC; col > lowerC; col--) {
+                    if (!game.getCell(col, row).isEmpty()) {
+                        return false;
+                    }
+                }
+            }
+            //return true;
+            */
+
+            /*
+            int lowerR = Math.min(c1.getRow(), c2.getRow()) + 1;
+            int higherR = Math.max(c1.getRow(), c2.getRow()) - 1;
+            int lowerC = Math.min(c1.getColumn(), c2.getColumn()) + 1;
+            int higherC = Math.max(c1.getColumn(), c2.getColumn()) - 1;
+            for (int row = lowerR; row <= higherR; row++) {
+                if (!game.getCell(row, row).isEmpty()) {
+                    return false;
+                }
+            }
+            for (int col = lowerC; col <= higherC; col++) {
+                if (!game.getCell(col, col).isEmpty()) {
+                    return false;
+                }
+            }
+            for (int row = higherR; row > lowerR; row--) {
+                if (!game.getCell(row, row).isEmpty()) {
+                    return false;
+                }
+            }
+            for (int col = higherC; col > lowerC; col--) {
+                if (!game.getCell(col, col).isEmpty()) {
+                    return false;
+                }
+            }
             return true;
-            
+            */
             /*
             if(c1.getRow() < c2.getRow())
             {
@@ -375,6 +461,7 @@ public class Chess {
                     return false;
                 }
             }
+            return true;
             */
             return true;
         }
