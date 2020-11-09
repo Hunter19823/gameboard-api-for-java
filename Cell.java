@@ -9,7 +9,8 @@ public class Cell {
     private int x,y;
 
 
-    public Cell(int x, int y) {
+    public Cell(int x, int y)
+    {
         this.x = x;
         this.y = y;
         currentState = State.EMPTY;
@@ -20,18 +21,22 @@ public class Cell {
         }else{
             backgroundPiece = new BackgroundCell(Color.ORANGE);
         }
+        backgroundPiece.setParent(this);
     }
 
-    public static enum State {
+    public static enum State
+    {
         EMPTY,
         FULL
     }
 
-    public int getColumn(){
+    public int getColumn()
+    {
         return x;
     }
 
-    public int getRow() {
+    public int getRow()
+    {
         return y;
     }
 
@@ -43,12 +48,14 @@ public class Cell {
     public void setPiece(BoardPiece piece)
     {
         this.piece = piece;
+        this.piece.setParent(this);
         this.currentState = State.FULL;
     }
 
     public BoardPiece removePiece()
     {
         this.currentState = State.EMPTY;
+        this.piece.setParent(null);
         BoardPiece p = this.piece;
         this.piece = null;
         return p;

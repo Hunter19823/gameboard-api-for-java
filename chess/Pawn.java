@@ -8,6 +8,7 @@ import java.awt.*;
 public class Pawn implements BoardPiece {
     public String name = "Pawn";
     private Color color;
+    private Cell parent;
 
     public Pawn(Color color)
     {
@@ -46,6 +47,15 @@ public class Pawn implements BoardPiece {
         return false;
     }
 
+    @Override
+    public void setParent(Cell parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public Cell getParent() {
+        return this.parent;
+    }
 
     @Override
     public String getName() {

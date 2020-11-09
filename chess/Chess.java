@@ -7,8 +7,6 @@ import main.gameboard.GameBoard;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import static main.cardgames.GoFish.print;
 
@@ -18,16 +16,18 @@ public class Chess {
     private boolean debugMode = false;
     private Color lastMoved = Color.BLACK;
     private boolean gameOver = false;
-    public Chess(){
+    public Chess()
+    {
         game = new GameBoard("Pie's Homemade Chess Game");
-        //populateBoard();
-        testPiece(new Queen(Color.WHITE));
+        populateBoard();
+        //testPiece(new Queen(Color.WHITE));
         addMouseListener();
-        runTest();
+        //runTest();
     }
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Chess chessBoard1 = new Chess();
-        chessBoard1.setDebugMode(true);
+        chessBoard1.setDebugMode(false);
     }
 
     public void setDebugMode(boolean debugMode) {
@@ -309,6 +309,16 @@ public class Chess {
     public static boolean movingDiagonallyUnobstructed(Chess game, Cell c1, Cell c2)
     {
         if (Chess.movingDiagonally(c1, c2)) {
+            int colMult = c1.getColumn() - c2.getColumn() < 0 ? -1 : 1;
+            int rowMult = c1.getRow() - c2.getRow() < 0 ? -1 : 1;
+            int dist = distance(c1.getColumn(),c2.getColumn());
+            for(int i=1; i < dist;i++){
+                //System.out.printf("Now Testing: Start(%d,%d) End(%d,%d) I: %d Diff(%d,%d)%n",c1.getColumn(),c1.getRow(),c2.getColumn(),c2.getRow(),i,colMult,rowMult);
+                if(!game.getCell(c1.getColumn()-colMult*i,c1.getRow()-rowMult*i).isEmpty()){
+                    return false;
+                }
+            }
+            return true;
             /*
             // Bottom Right Quad
             if(c1.getColumn()-c2.getColumn() < 0 && c1.getRow()-c2.getRow() < 0)
@@ -381,7 +391,6 @@ public class Chess {
             }
             //return true;
             */
-
             /*
             int lowerR = Math.min(c1.getRow(), c2.getRow()) + 1;
             int higherR = Math.max(c1.getRow(), c2.getRow()) - 1;
@@ -463,7 +472,6 @@ public class Chess {
             }
             return true;
             */
-            return true;
         }
         return false;
     }

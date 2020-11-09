@@ -8,6 +8,7 @@ import java.awt.*;
 public class Queen implements BoardPiece {
     public String name = "Queen";
     private Color color;
+    private Cell parent;
 
     public Queen(Color color)
     {
@@ -30,7 +31,8 @@ public class Queen implements BoardPiece {
     }
 
     @Override
-    public boolean canTake(Chess game, Cell me, Cell them) {
+    public boolean canTake(Chess game, Cell me, Cell them)
+    {
         if(!me.isEmpty() && !them.isEmpty()) {
             if (me.getPiece().getColor() != them.getPiece().getColor()) {
                 return (Chess.movingHorizontallyUnobstructed(game, me, them) || Chess.movingVerticallyUnobstructed(game, me, them) || Chess.movingDiagonallyUnobstructed(game,me,them));
@@ -40,12 +42,26 @@ public class Queen implements BoardPiece {
     }
 
     @Override
-    public String getName() {
+    public void setParent(Cell parent)
+    {
+        this.parent = parent;
+    }
+
+    @Override
+    public Cell getParent()
+    {
+        return this.parent;
+    }
+
+    @Override
+    public String getName()
+    {
         return name;
     }
 
     @Override
-    public Color getColor() {
+    public Color getColor()
+    {
         return this.color;
     }
 }

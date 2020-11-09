@@ -8,6 +8,7 @@ import java.awt.*;
 public class King implements BoardPiece {
     public String name = "King";
     private Color color;
+    private Cell parent;
 
     public King(Color color)
     {
@@ -40,6 +41,15 @@ public class King implements BoardPiece {
         return false;
     }
 
+    @Override
+    public void setParent(Cell parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public Cell getParent() {
+        return this.parent;
+    }
 
     @Override
     public Color getColor() {

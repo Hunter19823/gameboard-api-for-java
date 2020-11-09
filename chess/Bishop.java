@@ -8,6 +8,7 @@ import java.awt.*;
 public class Bishop implements BoardPiece {
     public String name = "Bishop";
     private Color color;
+    private Cell parent;
 
     public Bishop(Color color)
     {
@@ -36,6 +37,16 @@ public class Bishop implements BoardPiece {
             }
         }
         return false;
+    }
+
+    @Override
+    public void setParent(Cell parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public Cell getParent() {
+        return this.parent;
     }
 
     @Override

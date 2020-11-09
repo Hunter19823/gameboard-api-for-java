@@ -7,6 +7,7 @@ import java.awt.*;
 public class BackgroundCell implements BoardPiece {
     private Color color = Color.WHITE;
     public String name = "Background";
+    private Cell parent;
 
     public BackgroundCell(Color color)
     {
@@ -29,6 +30,16 @@ public class BackgroundCell implements BoardPiece {
     @Override
     public boolean canTake(Chess game, Cell me, Cell them) {
         return false;
+    }
+
+    @Override
+    public void setParent(Cell parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public Cell getParent() {
+        return parent;
     }
 
 

@@ -11,6 +11,8 @@ public interface BoardPiece {
     public void draw(Graphics g, int x, int y, int width, int height);
     public boolean canMove(Chess game, Cell me, Cell them);
     public boolean canTake(Chess game, Cell me, Cell them);
+    public void setParent(Cell parent);
+    public Cell getParent();
 
     String getName();
     Color getColor();
