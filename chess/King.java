@@ -18,14 +18,12 @@ public class King implements BoardPiece {
     @Override
     public void draw(Graphics g, int x, int y, int width, int height) {
         g.setColor(Color.BLACK);
-        //g.drawOval(x,y,width,height);
-        g.setFont(new Font(g.getFont().getName(),Font.PLAIN,width<height ? width : height));
-        g.drawString(color == Color.BLACK ? "♚" : "♔",x,y+height);
+        Cell.drawPiece(g,x,y,width,height,color == Color.BLACK ? "♚" : "♔");
     }
     @Override
     public boolean canMove(Chess game, Cell me, Cell them)
     {
-        if((Chess.movingHorizontally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingVertically(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()))){
+        if((Chess.movingHorizontally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingVertically(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) || Chess.movingDiagonally(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()))  && them.isEmpty()){
             return Chess.distance(me.getColumn(),me.getRow(),them.getColumn(),them.getRow()) < 2;
         }
         return false;

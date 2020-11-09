@@ -20,9 +20,7 @@ public class Pawn implements BoardPiece {
     public void draw(Graphics g, int x, int y, int width, int height)
     {
         g.setColor(Color.BLACK);
-        //g.drawOval(x,y,width,height);
-        g.setFont(new Font(g.getFont().getName(),Font.PLAIN,width<height ? width : height));
-        g.drawString(color == Color.BLACK ? "♟" : "♙",x,y+height);
+        Cell.drawPiece(g,x,y,width,height,color == Color.BLACK ? "♟" : "♙");
     }
 
     @Override

@@ -7,6 +7,8 @@ public class Cell {
     private BoardPiece piece;
     private BoardPiece backgroundPiece;
     private int x,y;
+    private boolean highlight;
+    private Color highlightColor;
 
 
     public Cell(int x, int y)
@@ -78,12 +80,37 @@ public class Cell {
 
     public void draw(Graphics g, int x, int y, int width, int height)
     {
-        if(currentState == Cell.State.EMPTY) {
-            backgroundPiece.draw(g,x,y,width, height);
-        }else{
-            backgroundPiece.draw(g,x,y,width, height);
-            piece.draw(g,x,y,width,height);
+
+        backgroundPiece.draw(g,x,y,width, height);
+        if(highlight) {
+            g.setColor(highlightColor);
+            int padding = 4;
+            g.fillRoundRect(x+padding, y+padding, width-padding*2, height-padding*2,width/2,height/2);
         }
+        if(currentState != Cell.State.EMPTY)
+            piece.draw(g,x,y,width,height);
+
     }
+
+    public void setHighlight(boolean highlight, Color highlightColor)
+    {
+        this.highlight = highlight;
+        this.highlightColor = highlightColor;
+    }
+
+    public void setHighlight(boolean highlight)
+    {
+        this.highlight = highlight;
+        this.highlightColor = Color.CYAN;
+    }
+
+    public static void drawPiece(Graphics g, int x, int y, int width, int height, String character)
+    {
+        int size = Math.min(width, height);
+        g.setFont(new Font(g.getFont().getName(),Font.PLAIN,size));
+        g.drawString(character, (int) (x + (((double) width/height - 1) * size)/2),y+size);
+    }
+
+
 
 }

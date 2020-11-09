@@ -20,14 +20,13 @@ public class Queen implements BoardPiece {
     {
         g.setColor(Color.BLACK);
         //g.drawOval(x,y,width,height);
-        g.setFont(new Font(g.getFont().getName(),Font.PLAIN,width<height ? width : height));
-        g.drawString(color == Color.BLACK ? "♛" : "♕",x,y+height);
+        Cell.drawPiece(g,x,y,width,height,color == Color.BLACK ? "♛" : "♕");
     }
 
     @Override
     public boolean canMove(Chess game, Cell me, Cell them)
     {
-        return (Chess.movingHorizontallyUnobstructed(game,me,them) || Chess.movingVerticallyUnobstructed(game,me,them) || Chess.movingDiagonallyUnobstructed(game,me,them));
+        return (Chess.movingHorizontallyUnobstructed(game,me,them) || Chess.movingVerticallyUnobstructed(game,me,them) || Chess.movingDiagonallyUnobstructed(game,me,them)) && them.isEmpty();
     }
 
     @Override

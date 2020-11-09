@@ -21,14 +21,13 @@ public class Rook implements BoardPiece {
     {
         g.setColor(Color.BLACK);
         //g.drawOval(x,y,width,height);
-        g.setFont(new Font(g.getFont().getName(),Font.PLAIN,width<height ? width : height));
-        g.drawString(color == Color.BLACK ? "♜" : "♖",x,y+height);
+        Cell.drawPiece(g,x,y,width,height,color == Color.BLACK ? "♜" : "♖");
     }
 
     @Override
     public boolean canMove(Chess game, Cell me, Cell them)
     {
-        return (Chess.movingVerticallyUnobstructed(game, me, them) || Chess.movingHorizontallyUnobstructed(game, me, them));
+        return (Chess.movingVerticallyUnobstructed(game, me, them) || Chess.movingHorizontallyUnobstructed(game, me, them)) && them.isEmpty();
     }
 
 

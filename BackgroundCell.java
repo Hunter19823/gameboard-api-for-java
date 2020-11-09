@@ -14,6 +14,7 @@ public class BackgroundCell implements BoardPiece {
         this.color = color;
     }
 
+    @Override
     public void draw(Graphics g, int x, int y, int width, int height)
     {
         Color temp = g.getColor();
@@ -33,21 +34,25 @@ public class BackgroundCell implements BoardPiece {
     }
 
     @Override
-    public void setParent(Cell parent) {
+    public void setParent(Cell parent)
+    {
         this.parent = parent;
     }
 
     @Override
-    public Cell getParent() {
+    public Cell getParent()
+    {
         return parent;
     }
 
-
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public Color getColor() {
         return color;
     }
+
 }
