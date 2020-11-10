@@ -1,5 +1,7 @@
 package main.gameboard;
 
+import main.gameboard.chess.Chess;
+
 import java.awt.*;
 
 public class Cell {
@@ -111,6 +113,12 @@ public class Cell {
         g.drawString(character, (int) (x + (((double) width/height - 1) * size)/2),y+size);
     }
 
+    public Cell getLeft(Chess game){
+        return game.getCell(getColumn()-1,getRow());
+    }
+    public Cell getRight(Chess game){
+        return game.getCell(getColumn()+1,getRow());
+    }
 
 
 }

@@ -90,8 +90,6 @@ public class Chess {
         game.setPiece(5,5,new Queen(Color.BLACK));
     }
 
-
-
     public void populateBoard()
     {
         game.setPiece(4,7,new King(Color.WHITE));
@@ -143,6 +141,57 @@ public class Chess {
                         gameOver = true;
                         print(getColorName(c1.getPiece().getColor()) + " has won!");
                     }
+                } else {
+                    // Castling
+                    // WIP
+                    if(specialRule(c1,c2)){
+                        lastMoved = lastMoved == Color.BLACK ? Color.WHITE : Color.BLACK;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean specialRule(Cell c1, Cell c2)
+    {
+        if(castle(c1,c2) || castle(c2,c1))
+        {
+            System.out.println("Castle");
+            //System.out.printf("(%s%s) [%s %s] to (%s%s) [%s %s]%n", key[c1.getColumn()], 8 - c2.getRow(), getColorName(c1.getPiece().getColor()), c1.getPiece().getName(), key[c2.getColumn()], 8 - c2.getRow(), getColorName(c2.getPiece().getColor()), c2.getPiece().getName());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean castle(Cell c1, Cell c2)
+    {
+        if(!(c1.getPiece().getName() == "King" && c2.getPiece().getName() == "Rook")) {
+            return false;
+        }
+        if((c1.getRow() != c2.getRow())) {
+            return false;
+        }
+        if(!c1.getPiece().getColor().equals(c2.getPiece().getColor()))
+        {
+            return false;
+        }
+        if((c1.getRow() == 7 && c1.getPiece().getColor().equals(Color.WHITE)) || (c1.getRow() == 0 && c1.getPiece().getColor().equals(Color.BLACK)))
+        {
+            if(c2.getColumn() == 0)
+            {
+                if(c2.getPiece().canMove(this,c2,c1.getLeft(this))){
+                    c1.getLeft(this).setPiece(c2.removePiece());
+                    c1.getLeft(this).getLeft(this).setPiece(c1.removePiece());
+                    return true;
+                }
+            }
+            else if(c2.getColumn() == 7)
+            {
+                if(c2.getPiece().canMove(this,c2,c1.getRight(this))){
+                    c1.getRight(this).setPiece(c2.removePiece());
+                    c1.getRight(this).getRight(this).setPiece(c1.removePiece());
+                    return true;
                 }
             }
         }
